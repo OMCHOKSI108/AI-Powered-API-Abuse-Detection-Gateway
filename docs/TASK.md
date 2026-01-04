@@ -11,13 +11,13 @@ I’ll break it cleanly into **5 sections**.
 
 ---
 
-# 1️⃣ End-to-End Request Lifecycle (Step-by-Step)
+# 1⃣ End-to-End Request Lifecycle (Step-by-Step)
 
 This explains **exactly what happens to ONE request**, from arrival to response.
 
 ---
 
-### 🔹 Step 0: Initial State (Gateway Running)
+### Step 0: Initial State (Gateway Running)
 
 * Gateway is already running
 * ML model is loaded into memory
@@ -26,15 +26,15 @@ This explains **exactly what happens to ONE request**, from arrival to response.
 
 ---
 
-### 🔹 Step 1: Client Sends Request
+### Step 1: Client Sends Request
 
 Example:
 
 ```
 GET /api/orders
 Headers:
-  Authorization: Bearer xyz
-  User-Agent: curl/7.88
+ Authorization: Bearer xyz
+ User-Agent: curl/7.88
 ```
 
 Client could be:
@@ -46,7 +46,7 @@ Client could be:
 
 ---
 
-### 🔹 Step 2: Gateway Receives Request
+### Step 2: Gateway Receives Request
 
 The gateway:
 
@@ -58,7 +58,7 @@ Nothing is blocked yet.
 
 ---
 
-### 🔹 Step 3: Client Identification
+### Step 3: Client Identification
 
 Gateway computes **ClientID**:
 
@@ -74,7 +74,7 @@ Why:
 
 ---
 
-### 🔹 Step 4: Feature Update (Streaming)
+### Step 4: Feature Update (Streaming)
 
 The gateway **updates behavior stats** for this ClientID:
 
@@ -91,11 +91,11 @@ This uses:
 * Ring buffers
 * Atomic counters
 
-⚠️ This step happens **before ML**, every request.
+ This step happens **before ML**, every request.
 
 ---
 
-### 🔹 Step 5: Feature Vector Construction
+### Step 5: Feature Vector Construction
 
 From streaming stats, a feature vector is built:
 
@@ -103,12 +103,12 @@ Example:
 
 ```
 [
-  req_per_sec,
-  burstiness,
-  endpoint_entropy,
-  avg_payload_size,
-  error_ratio,
-  timing_variance
+ req_per_sec,
+ burstiness,
+ endpoint_entropy,
+ avg_payload_size,
+ error_ratio,
+ timing_variance
 ]
 ```
 
@@ -116,7 +116,7 @@ This represents **behavior**, not content.
 
 ---
 
-### 🔹 Step 6: AI Risk Scoring
+### Step 6: AI Risk Scoring
 
 Feature vector → ML model:
 
@@ -133,7 +133,7 @@ No blocking yet.
 
 ---
 
-### 🔹 Step 7: Decision Engine
+### Step 7: Decision Engine
 
 Gateway combines:
 
@@ -143,15 +143,15 @@ Gateway combines:
 
 Decision:
 
-* ✅ ALLOW
-* 🟡 THROTTLE (delay response)
-* ❌ BLOCK (temporary)
+* ALLOW
+* THROTTLE (delay response)
+* BLOCK (temporary)
 
 This avoids ML-only decisions.
 
 ---
 
-### 🔹 Step 8: Enforcement
+### Step 8: Enforcement
 
 Depending on decision:
 
@@ -163,7 +163,7 @@ Backend may never see the request.
 
 ---
 
-### 🔹 Step 9: Response Handling
+### Step 9: Response Handling
 
 When backend responds:
 
@@ -175,7 +175,7 @@ This creates **feedback**.
 
 ---
 
-### 🔹 Step 10: Logging & Metrics
+### Step 10: Logging & Metrics
 
 Gateway logs:
 
@@ -192,45 +192,45 @@ Used for:
 
 ---
 
-# 2️⃣ Concrete Configuration & Policies (User View)
+# 2⃣ Concrete Configuration & Policies (User View)
 
 This is how a **normal user configures the system**.
 
 ---
 
-### 🔹 Minimal config (realistic)
+### Minimal config (realistic)
 
 ```yaml
 gateway:
-  listen_port: 8080
+ listen_port: 8080
 
 backend:
-  url: http://localhost:3000
+ url: http://localhost:3000
 
 identity:
-  strategy: ip + api_key
+ strategy: ip + api_key
 
 ai:
-  model_path: models/abuse_model.onnx
-  score_thresholds:
-    allow: 0.30
-    throttle: 0.65
-    block: 0.85
+ model_path: models/abuse_model.onnx
+ score_thresholds:
+ allow: 0.30
+ throttle: 0.65
+ block: 0.85
 
 rate_limit:
-  base_rps: 50
-  burst: 20
-  cooldown_seconds: 120
+ base_rps: 50
+ burst: 20
+ cooldown_seconds: 120
 
 logging:
-  level: info
+ level: info
 ```
 
 No ML knowledge required.
 
 ---
 
-### 🔹 What user actually controls
+### What user actually controls
 
 * Backend URL
 * Aggressiveness
@@ -241,13 +241,13 @@ Everything else is automatic.
 
 ---
 
-# 3️⃣ Attack Scenarios vs Gateway Response
+# 3⃣ Attack Scenarios vs Gateway Response
 
 This is **where the project proves its value**.
 
 ---
 
-## 🧨 Scenario 1: Bot Scraping
+## Scenario 1: Bot Scraping
 
 **Attack**
 
@@ -269,7 +269,7 @@ Backend saved.
 
 ---
 
-## 🧨 Scenario 2: Credential Stuffing
+## Scenario 2: Credential Stuffing
 
 **Attack**
 
@@ -292,7 +292,7 @@ Backend saved.
 
 ---
 
-## 🧨 Scenario 3: IP Rotation
+## Scenario 3: IP Rotation
 
 **Attack**
 
@@ -311,7 +311,7 @@ Backend saved.
 
 ---
 
-## 🧨 Scenario 4: Legit Traffic Spike
+## Scenario 4: Legit Traffic Spike
 
 **Event**
 
@@ -333,9 +333,9 @@ This is critical.
 
 ---
 
-# 4️⃣ How to Explain This in Interviews (Q&A)
+# 4⃣ How to Explain This in Interviews (Q&A)
 
-### ❓ “What did you build?”
+### “What did you build?”
 
 **Answer**
 
@@ -343,7 +343,7 @@ This is critical.
 
 ---
 
-### ❓ “Why C++?”
+### “Why C++?”
 
 **Answer**
 
@@ -351,7 +351,7 @@ This is critical.
 
 ---
 
-### ❓ “Why AI instead of rules?”
+### “Why AI instead of rules?”
 
 **Answer**
 
@@ -359,7 +359,7 @@ This is critical.
 
 ---
 
-### ❓ “How do you avoid false positives?”
+### “How do you avoid false positives?”
 
 **Answer**
 
@@ -367,7 +367,7 @@ This is critical.
 
 ---
 
-### ❓ “Is this production-ready?”
+### “Is this production-ready?”
 
 **Answer**
 
