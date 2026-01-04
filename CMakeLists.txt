@@ -1,31 +1,15 @@
-cmake_minimum_required(VERSION 3.15)
-project(ai_abuse_gateway CXX)
+cmake_minimum_required(VERSION 3.10)
+project(blog_api CXX)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Dependencies
 find_package(Drogon REQUIRED)
-find_package(spdlog REQUIRED)
-find_package(nlohmann_json REQUIRED) 
 
-include_directories(include)
-include_directories(src)
+include_directories(src/controllers src/models)
 
-# Gather source files
-file(GLOB_RECURSE SOURCES "src/*.cpp")
-
-# Create Executable
-add_executable(ai_abuse_gateway ${SOURCES})
-
-# Link Libraries
-target_link_libraries(ai_abuse_gateway PRIVATE 
-    Drogon::Drogon
-    spdlog::spdlog
-    nlohmann_json::nlohmann_json
-    crypto
-    ssl
+add_executable(blog_api 
+    main.cpp 
+    src/controllers/Controllers.cpp
 )
-
-# Copy config to build dir
-configure_file(${CMAKE_SOURCE_DIR}/config/config.json ${CMAKE_BINARY_DIR}/config.json COPYONLY)
+target_link_libraries(blog_api PRIVATE Drogon::Drogon)

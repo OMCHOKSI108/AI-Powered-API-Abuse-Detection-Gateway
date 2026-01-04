@@ -1,0 +1,411 @@
+{
+    "info": {
+        "_postman_id": "b0682c7a-129b-4497-b3c9-95240c57176d",
+        "name": "C++ Blog API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Register",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"test@example.com\",\n    \"password\": \"secret123\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/auth/register",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "auth",
+                                "register"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"test@example.com\",\n    \"password\": \"secret123\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/auth/login",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "auth",
+                                "login"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Me",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/auth/me",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "auth",
+                                "me"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Posts",
+            "item": [
+                {
+                    "name": "Get All Posts",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/posts",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "posts"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create Post",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"title\": \"My First C++ Blog\",\n    \"content\": \"This is heavily optimized content.\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/posts",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "posts"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Post by Slug",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/posts/my-first-c++-blog",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "posts",
+                                "my-first-c++-blog"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update Post",
+                    "request": {
+                        "method": "PUT",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"content\": \"Updated content with more optimizations.\",\n    \"tags\": [\"cpp\", \"drogon\", \"api\"]\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/posts/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "posts",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Publish Post",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/posts/1/publish",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "posts",
+                                "1",
+                                "publish"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Delete Post",
+                    "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/posts/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "posts",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Categories",
+            "item": [
+                {
+                    "name": "Get Categories",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/categories",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "categories"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create Category",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Technology\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/categories",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "categories"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Comments",
+            "item": [
+                {
+                    "name": "Get Comments",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/posts/1/comments",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "posts",
+                                "1",
+                                "comments"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Create Comment",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"content\": \"Great post! Thanks for sharing.\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/posts/1/comments",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "posts",
+                                "1",
+                                "comments"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "Users",
+            "item": [
+                {
+                    "name": "Get User",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "http://localhost:8080/api/users/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "users",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Update User",
+                    "request": {
+                        "method": "PUT",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"bio\": \"C++ Developer & Blogger\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "http://localhost:8080/api/users/1",
+                            "protocol": "http",
+                            "host": [
+                                "localhost"
+                            ],
+                            "port": "8080",
+                            "path": [
+                                "api",
+                                "users",
+                                "1"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ]
+}

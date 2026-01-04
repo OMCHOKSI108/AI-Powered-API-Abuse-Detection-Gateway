@@ -1,248 +1,123 @@
-# AI-Powered API Abuse Detection Gateway
+# C++ Blog API
 
-**Protect your APIs from bots, scrapers, and DDoS attacks in minutes. Zero backend changes required.**
+A high-performance REST API built with **C++** and **Drogon Framework**.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![C++20](https://img.shields.io/badge/C%2B%2B-20-blue.svg)](https://en.cppreference.com/w/cpp/20)
-[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED.svg)](https://www.docker.com/)
-[![Docs](https://img.shields.io/badge/Docs-MkDocs-526CFE.svg)](https://www.mkdocs.org/)
+![API Documentation](public/image.png)
 
-A high-performance C++ API Gateway that uses real-time behavioral analysis and Machine Learning to detect and block abusive traffic (bots, scrapers, DDoS) without modifying the backend.
+## Features
 
----
-
-## Full Documentation
-
-** [Read the complete docs](https://yourusername.github.io/AI-Gateway)** (or run `mkdocs serve` locally)
-
-### Quick Links
-
-- [5-Minute Quick Start](docs/getting-started/quickstart.md)
-- [Protect Your Vercel Backend](docs/use-cases/vercel-integration.md) - Real example!
-- [Configuration Guide](docs/getting-started/configuration.md)
-- [FAQ](docs/faq.md)
-- [Contributing](docs/contributing.md)
+*   **Blazing Fast**: Written in modern C++.
+*   **Authentication**: User registration and login (Mock).
+*   **Content Management**: CRUD operations for Posts, Categories, and Comments.
+*   **User Profiles**: Manage user info.
+*   **Dockerized**: Ready to deploy.
 
 ---
 
-## Real-World Example: sans's Story
+## API Endpoints
 
-**sans** built an e-commerce site with Next.js + Node.js backend on Vercel. After launch, bots started scraping her product API 1000x/minute, causing:
+### Authentication
 
-- Server costs jumped 400%
-- Real customers got slow responses
-- Frustration and lost sales
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/auth/register` | Register a new user (`email`, `password`) |
+| `POST` | `/api/auth/login` | Login user (`email`, `password`) |
+| `GET` | `/api/auth/me` | Get current logged-in user info |
 
-**Solution:** She deployed this gateway in **10 minutes**. Now:
+### Blog Posts
 
- Bots automatically blocked 
- Server costs back to normal 
- Real customers happy 
- Live analytics dashboard
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/posts` | Get all published posts |
+| `POST` | `/api/posts` | Create a new draft (`title`, `content`) |
+| `GET` | `/api/posts/{slug}` | Get a single post by slug |
+| `PUT` | `/api/posts/{id}` | Update a post (`title`, `content`, `tags`) |
+| `DELETE` | `/api/posts/{id}` | Delete a post |
+| `POST` | `/api/posts/{id}/publish` | Publish a draft |
 
-**[See her complete setup guide →](docs/use-cases/vercel-integration.md)**
+### Categories
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/categories` | List all categories |
+| `POST` | `/api/categories` | Create a new category (`name`) |
+
+### Comments
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/posts/{id}/comments` | Get comments for a post |
+| `POST` | `/api/posts/{id}/comments` | Add a comment (`content`) |
+
+### Users
+
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `GET` | `/api/users/{id}` | Get public user profile |
+| `PUT` | `/api/users/{id}` | Update user profile (`bio`) |
 
 ---
 
-## System Architecture
+## How to Run
 
-![Architecture Diagram](docs/structure.png)
-
-The system is designed with a modular architecture:
-
-- **Gateway Layer (src/gateway)**: Handles incoming HTTP requests and enforcement (Allow/Block).
-- **Traffic Analysis (src/analysis)**: Thread-safe streaming metrics (RPS, Burstiness) per client in O(1) time.
-- **ML Engine (src/ml)**: Advanced rule-based scoring with ONNX Runtime support for custom models.
-- **Authentication (src/auth)**: Session-based user management for dashboard access.
-- **Utils**: High-speed logging and configuration.
-
-## Quick Start (5 Minutes)
-
-### Step 1: Deploy the Gateway
+### Using Docker (Recommended)
 
 ```bash
-# Clone repo
-git clone https://github.com/yourusername/AI-Gateway.git
-cd AI-Gateway
+# Build the image
+docker build -t blog_api .
 
-# Build with Docker
-docker build -t gateway .
-
-# Run (protecting your API)
-docker run -d -p 8080:8080 \
- -e BACKEND_URL=https://your-api.vercel.app \
- --name gateway \
- gateway
+# Run the container
+docker run -d -p 8080:8080 --name blog_api blog_api
 ```
 
-### Step 2: Update Your Frontend
+### Manual Build (Local)
 
-Change API calls to use gateway:
+To run without Docker, you need **CMake** and a C++ compiler. You also need to install the **Drogon** library.
 
-```javascript
-// Before
-const API_BASE = 'https://your-api.vercel.app';
+#### Windows (using vcpkg)
 
-// After 
-const API_BASE = 'https://your-gateway.com'; // or http://localhost:8080
-```
+1.  **Install dependencies**:
+    ```powershell
+    # Assuming you have vcpkg installed
+    vcpkg install drogon:x64-windows
+    ```
 
-### Step 3: Monitor Dashboard
+2.  **Build**:
+    ```powershell
+    mkdir build
+    cd build
+    # Replace path to your vcpkg.cmake
+    cmake .. -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake
+    cmake --build . --config Release
+    ```
 
-1. Visit: `http://localhost:8080/dashboard/signup.html`
-2. Create account & login
-3. See live traffic + blocked attacks!
+3.  **Run**:
+    ```powershell
+    cd Release
+    .\blog_api.exe
+    ```
 
-**That's it!** Your API is now protected.
+#### Linux / WSL
 
- **[See detailed guide with real example →](docs/use-cases/vercel-integration.md)**
+1.  **Install dependencies**:
+    ```bash
+    sudo apt install git cmake g++ libjsoncpp-dev uuid-dev zlib1g-dev libssl-dev
+    # Install Drogon (source)
+    git clone https://github.com/drogonframework/drogon
+    cd drogon && mkdir build && cd build
+    cmake .. && make && sudo make install
+    ```
+
+2.  **Build & Run**:
+    ```bash
+    mkdir build && cd build
+    cmake ..
+    make
+    ./blog_api
+    ```
 
 ---
 
-## Dashboard
+## Testing with Postman
 
-Real-time monitoring of traffic and threats:
-
-- Live RPS graphs
-- Active client list with risk scores
-- Endpoint diversity analysis
-- Error rate tracking
-- Ban management
-
-Access at: `http://localhost:8080/dashboard/index.html`
-
----
-
-## Configuration
-
-### Basic Setup
-
-Edit `config/config.json`:
-
-```json
-{
- "gateway": {
- "backend_url": "https://your-api.com"
- },
- "ml_model": {
- "threshold_block": 0.8,
- "threshold_throttle": 0.5,
- "ban_duration_seconds": 300
- }
-}
-```
-
-### Environment Variables
-
-```bash
-docker run -d -p 8080:8080 \
- -e BACKEND_URL=https://your-api.com \
- -e BLOCK_THRESHOLD=0.85 \
- gateway
-```
-
- **[Full configuration reference →](docs/getting-started/configuration.md)**
-
----
-
-## ML Model Training (Optional)
-
-The gateway works great with built-in rule-based detection. For advanced use:
-
-```bash
-# Install Python dependencies
-pip install scikit-learn skl2onnx numpy onnx
-
-# Generate custom model
-python tools/create_sample_model.py
- Use Cases
-
-Perfect for:
-
-- **E-commerce** - Block price scrapers & inventory bots
-- **Mobile Apps** - Prevent fake API clients
-- **SaaS** - Stop credential stuffing attacks
-- **Web APIs** - Protect content from theft
-- **Microservices** - Internal service protection
-
- **[See real examples →](docs/use-cases/vercel-integration.md)**
-
----
-
-## Architecture
-
-```
-Users → Gateway → Your API
- ↓
- Analysis
- ↓
- ML Scoring
- ↓
- Allow/Throttle/Block
-```
-
-**Components:**
-
-- **Gateway Layer** - Request handling & enforcement
-- **Traffic Analysis** - Thread-safe behavioral tracking
-- **ML Engine** - Real-time risk scoring (rule-based + ONNX)
-- **Auth System** - Dashboard access control
-- **Ban Manager** - Auto-expiring temporary blocks
-
- **[Architecture deep dive →](docs/advanced/architecture.md)**
-
----
-
-## Project Structure
-
-```
- src/
- gateway/ # ReverseProxy, Dashboard, Auth, BanManager
- analysis/ # TrafficAnalyzer, SlidingWindow
- ml/ # InferenceEngine (ML scoring)
- auth/ # UserManager (sessions)
- main.cpp # Entry point
- config/ # config.json
- dashboard/ # Web UI (HTML/JS)
- docs/ # MkDocs documentation
- tools/ # Model generation scripts
- Dockerfile # Multi-stage buildom ML model inference.
-- **CMake**: Build System.
-
-## Key Features
-
- **Production-Ready ML Engine**
-- Advanced multi-factor risk scoring algorithm
-- Thread-safe concurrent inference
-- Automatic fallback if model unavailable
-- ONNX Runtime integration ready
-
- **Thread-Safe Architecture**
-- Mutex-protected client statistics
-- Lock-free read operations
-- Safe concurrent request handling
-
- **Real-Time Behavioral Analysis**
-- 60-second sliding windows
-- RPS and burstiness tracking
-- Automatic high-risk detection and logging
-
- **Web Dashboard**
-- Live traffic visualization
-- Client risk monitoring
-- Dynamic backend configuration
-- User authentication
-
-## Project Structure
-
-```
- src
- analysis # Sliding Window & Traffic Analyzer
- gateway # Reverse Proxy Logic
- ml # Inference Engine
- main.cpp # Entry Point
- include # Public Headers
- config # JSON Configuration
- Dockerfile # Multi-stage build
- CMakeLists.txt # Build definitions
-```
+Import the `postman_collection.json` file included in this repository to test all endpoints instantly!
